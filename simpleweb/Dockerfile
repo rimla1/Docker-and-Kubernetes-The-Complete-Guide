@@ -1,4 +1,4 @@
-FROM node:6.14
+FROM node:alpine
 
 RUN npm install
 
