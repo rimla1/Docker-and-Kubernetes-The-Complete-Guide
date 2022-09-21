@@ -4,5 +4,7 @@ services:
     image: "redis"
   node-app:
     build: .
+    depends_on: 
+      - redis-server
     ports: 
       - "4001:8081"

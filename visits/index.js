@@ -1,22 +1,27 @@
-const express = require("express");
-const redis = require("redis");
+import express from "express";
+import redis from "redis";
 
 const app = express();
 
 const client = redis.createClient({
-  host: "redis-server",
-  port: 6379,
+  //   host: "redis-server",
+  url: "redis://redis-server:6379",
 });
+
+await client.connect();
 
 client.set("visits", 0);
 
 app.get("/", (req, res) => {
-  client.get("visits", (err, visits) => {
-    res.send("Number of visits is " + visits);
-    client.set("visits", parseInt(visits) + 1);
-  });
+  res.send("Hello World!");
 });
 
-app.listen(8081, () => {
+app.get("/test", async (req, res) => {
+  const currentVisits = await client.get("visits");
+  await client.set("visits", parseInt(currentVisits) + 1);
+  return res.send(`Number of current visits: ${currentVisits}`);
+});
+
+app.listen(8081, async () => {
   console.log("Server is up and running on port 8081");
 });
