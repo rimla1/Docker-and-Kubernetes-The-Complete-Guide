@@ -1,5 +1,6 @@
 import express from "express";
 import redis from "redis";
+import process from "process";
 
 const app = express();
 
@@ -12,11 +13,8 @@ await client.connect();
 
 client.set("visits", 0);
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
-
-app.get("/test", async (req, res) => {
+app.get("/", async (req, res) => {
+  process.exit(0);
   const currentVisits = await client.get("visits");
   await client.set("visits", parseInt(currentVisits) + 1);
   return res.send(`Number of current visits: ${currentVisits}`);
