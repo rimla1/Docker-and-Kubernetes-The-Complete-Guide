@@ -14,7 +14,7 @@ await client.connect();
 client.set("visits", 0);
 
 app.get("/", async (req, res) => {
-  process.exit(0);
+  process.exit(22);
   const currentVisits = await client.get("visits");
   await client.set("visits", parseInt(currentVisits) + 1);
   return res.send(`Number of current visits: ${currentVisits}`);
